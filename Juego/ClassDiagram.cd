@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Arrcg">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAEAAAAAAAABAAAAAACAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>ArregloCG.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cg">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQIAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>circuloG.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cm">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAQIAAAAAAAAAQAAAAAAKAAAAAAAAAgAAAAAAAAAAg=</HashCode>
+      <FileName>circuloM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="padre">
+    <Position X="2.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAABAAAAABAABgQAAANAA=</HashCode>
+      <FileName>circuloPadre.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
