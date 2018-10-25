@@ -1,280 +1,150 @@
 #pragma once
-enum Direcciones { Arriba, Abajo, Izquierda, Derecha, Ninguna, LetraA, LetraS };
+#include "String.h"
+enum Direcciones { Arriba, Abajo, Izquierda, Derecha, Ninguna};
 using namespace System::Drawing;
-class CJugador
+using namespace System;
+class Jugador
 {
 private:
-	int personaje = 1;
 	int x, y;
 	int dx, dy;
+	char*imagen;//nombre del archivo
 	int ancho, alto;
 	int indicex, indicey;
-	Direcciones direccion;
-	Direcciones ultima;
 public:
-	CJugador();
-	~CJugador();
-	CJugador(int, int);
-	void dibujarJugador(Graphics^g, Bitmap^bmpJugador);
-	void moverJugador(Graphics^g, Bitmap^bmpJugador);
-	void setdireccion(Direcciones);
+	Jugador(void);
+	~Jugador(void);
+	void set_x(int nuevo);
+	void set_y(int nuevo);
 	int get_x();
 	int get_y();
+	int get_dx();
+	int get_dy();
+	int get_ancho();
+	int get_alto();
+	void cambiar_dx_dy(Direcciones teclapulsada);
+	void cambiar_imagen(char*nuevo);
+	void mostrar(Graphics^gr);
+	void Mover(Graphics^gr, Direcciones teclapulsada);
 };
-CJugador::CJugador()
+Jugador::Jugador(void)
 {
-
-}
-CJugador::CJugador(int _x, int _y)
-{
-	x = _x;
-	y = _y;
-	dx = dy = 0;
+	x = y = 0;
+	dx = 0;
+	dy = 1;
 	indicex = indicey = 0;
-	ancho = 48;
-	alto = 48;
-	direccion = Ninguna;
-	ultima = Abajo;
+	imagen = new char[50];
 }
-CJugador::~CJugador()
+void Jugador::set_x(int nuevo)
 {
-
+	x = nuevo;
 }
-void CJugador::dibujarJugador(Graphics^g, Bitmap ^bmpJugador)
+void Jugador::set_y(int nuevo)
 {
-	Rectangle porcionusar = Rectangle(indicex*ancho, indicey*alto, ancho, alto);
-	Rectangle aumento = Rectangle(x, y, ancho * 2, ancho * 2);
-	g->DrawImage(bmpJugador, aumento, porcionusar, GraphicsUnit::Pixel);
-	x += dx;
-	y += dy;
+	y = nuevo;
 }
-void CJugador::moverJugador(Graphics^g, Bitmap^bmpJugador)
+int  Jugador::get_x()
 {
-
-	switch (direccion)
+	return x;
+}
+int  Jugador::get_y()
+{
+	return y;
+}
+int  Jugador::get_dx()
+{
+	return dx;
+}
+int  Jugador::get_dy()
+{
+	return dy;
+}
+int  Jugador::get_ancho()
+{
+	return ancho;
+}
+int  Jugador::get_alto()
+{
+	return alto;
+}
+void Jugador::cambiar_dx_dy(Direcciones teclapulsada)
+{
+	switch (teclapulsada)
 	{
 	case Arriba:
 	{
-		if (personaje == 1)
-		{
-			indicey = 3;
-			if (indicex >= 0 && indicex < 2)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 0;
-			}
-			dx = 0;
-			dy = -10;
-			ultima = Arriba;
-		}
-		if (personaje == 2)
-		{
-			indicey = 3;
-			if (indicex >= 3 && indicex < 5)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 3;
-			}
-			dx = 0;
-			dy = -10;
-			ultima = Arriba;
-		}
+		dy = -1;
+		dx = 0;
 		break;
 	}
 	case Abajo:
 	{
-		if (personaje == 1)
-		{
-			indicey = 0;
-			if (indicex >= 0 && indicex < 2)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 0;
-			}
-			dx = 0;
-			dy = +10;
-			ultima = Abajo;
-		}
-		if (personaje == 2)
-		{
-			indicey = 0;
-			if (indicex >= 3 && indicex < 5)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 3;
-			}
-			dx = 0;
-			dy = +10;
-			ultima = Abajo;
-		}
+	dy = 1;
+	dx = 0;
 		break;
 	}
-
 	case Izquierda:
 	{
-		if (personaje == 1)
-		{
-			indicey = 1;
-			if (indicex >= 0 && indicex < 2)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 0;
-			}
-			dx = -10;
-			dy = 0;
-			ultima = Izquierda;
-		}
-		if (personaje == 2)
-		{
-			indicey = 1;
-			if (indicex >= 3 && indicex < 5)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 3;
-			}
-			dx = -10;
-			dy = 0;
-			ultima = Izquierda;
-		}
+	dy = 0;
+	dx = -1;
 		break;
 	}
 	case Derecha:
 	{
-		if (personaje == 1)
-		{
-			indicey = 2;
-			if (indicex >= 0 && indicex < 2)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 0;
-			}
-			dx = +10;
-			dy = 0;
-			ultima = Derecha;
-		}
-		if (personaje == 2)
-		{
-			indicey = 2;
-			if (indicex >= 3 && indicex < 5)
-			{
-				indicex++;
-			}
-			else
-			{
-				indicex = 3;
-			}
-			dx = +10;
-			dy = 0;
-			ultima = Derecha;
-		}
-
-
-		break;
-	}
-	case LetraA:
-	{
-		personaje = 2;
-		break;
-	}
-	case LetraS:
-	{
-		personaje = 1;
+		dy = 0;
+		dx = 1;
 		break;
 	}
 	case Ninguna:
-		dx = 0;
+	{
 		dy = 0;
-
-		if (ultima == Abajo)
-		{
-			if (personaje == 1)
-			{
-				indicex = 0;
-				indicey = 0;
-			}
-			if (personaje == 2)
-			{
-				indicex = 3;
-				indicey = 0;
-			}
-		}
-		if (ultima == Arriba)
-		{
-			if (personaje == 1)
-			{
-				indicex = 0;
-				indicey = 3;
-			}
-			if (personaje == 2)
-			{
-				indicex = 3;
-				indicey = 3;
-			}
-		}
-
-		if (ultima == Derecha)
-		{
-			if (personaje == 1)
-			{
-				indicex = 0;
-				indicey = 2;
-			}
-			if (personaje == 2)
-			{
-				indicex = 3;
-				indicey = 2;
-			}
-		}
-		if (ultima == Izquierda)
-		{
-			if (personaje == 1)
-			{
-				indicex = 0;
-				indicey = 1;
-			}
-
-			if (personaje == 2)
-			{
-				indicex = 3;
-				indicey = 1;
-			}
-		}
-		break;
-	default:
+		dx = 0;
 		break;
 	}
-	dibujarJugador(g, bmpJugador);
+	default:
+	{
+		break;
+	}
+	}
 }
-void CJugador::setdireccion(Direcciones direcion_actual)
+void Jugador::cambiar_imagen(char*nuevo)
 {
-	direccion = direcion_actual;
+	strcpy(imagen, nuevo);//copia de una cadena a otra
+	//imagen tiene el nombre del archivo sprite
+	Bitmap^bmp = gcnew Bitmap(gcnew String(imagen));
+	//carga la imagen
+	ancho = bmp->Width / 5;//5 imagenes x columna
+	alto = bmp->Height / 4;//4 imagenes xcolumna
+	delete bmp;
 }
-int CJugador::get_x()
+void Jugador::mostrar(Graphics^gr)
 {
-	return x;
+	//clase Bitmap para leer la imagen del archivo
+	Bitmap^bmp = gcnew Bitmap(gcnew String(imagen));
+	//porcion que será un cuadro del sprite
+	System::Drawing::Rectangle porcion = System::Drawing::Rectangle(indicex*ancho, indicey*alto, ancho, alto);
+	//zoom para que la imagen sea más grande que la original
+	System::Drawing::Rectangle zoom = System::Drawing::Rectangle(x, y, ancho, alto);
+	//Dibuja la imagen en el canvas
+	gr->DrawImage(bmp, zoom, porcion, GraphicsUnit::Pixel);
 }
-int CJugador::get_y()
+void Jugador::Mover(Graphics^gr,Direcciones teclapulsada)
 {
-	return y;
+	if (teclapulsada == Direcciones::Abajo) 		indicey = 0;
+	if (teclapulsada == Direcciones::Izquierda)	indicey = 1;
+	if (teclapulsada == Direcciones::Derecha)		indicey = 2;
+	if (teclapulsada == Direcciones::Arriba)		indicey = 3;
+
+	indicex++;
+	if (indicex>2)
+		indicex = 0;
+
+	x = x + dx;
+	y = y + dy;
+	mostrar(gr);
 }
+Jugador::~Jugador()
+{
+	//Delete imagen
+}
+

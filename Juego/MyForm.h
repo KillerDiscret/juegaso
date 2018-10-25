@@ -3,6 +3,7 @@
 #include "ArregloCG.h"
 #include "circuloG.h"
 #include "circuloM.h"
+#include "Jugador.h"
 
 
 namespace Juego {
@@ -24,7 +25,8 @@ namespace Juego {
 		cm*objm;
 		cm*obj2m;
 		Arrcg*arreglo;
-
+		Jugador*objJugador;
+		Direcciones teclapulsada;
 		int tCG;
 		int vCG;
 		bool iCG;
@@ -43,6 +45,11 @@ namespace Juego {
 			tCG = 0;
 			vCG = 0;
 			iCG = true;
+			objJugador = new Jugador();
+			teclapulsada = Direcciones::Ninguna;
+			objJugador->set_x(100);
+			objJugador->set_y(100);
+			objJugador->cambiar_imagen("spritepng2.png");
 			//
 			//TODO: agregar código de constructor aquí
 			//
@@ -100,6 +107,7 @@ namespace Juego {
 			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
 			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::MyForm_Paint);
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::MyForm_KeyDown);
 			this->ResumeLayout(false);
 
 		}
@@ -122,37 +130,31 @@ namespace Juego {
 	
 	}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
-		//Graphics^gr = this->CreateGraphics();
+	Graphics^gr = this->CreateGraphics();
 	//crear hasta cierta cantidad;
 		BufferedGraphicsContext^espacio = BufferedGraphicsManager::Current;
-		BufferedGraphics^buffer = espacio->Allocate(d, this->ClientRectangle);
+		BufferedGraphics^buffer = espacio->Allocate(gr, this->ClientRectangle);
 		buffer->Graphics->Clear(Color::White);
-		obj2m->mover(buffer->Graphics);
-		
-		if (iCG)
-		{
-			if (tCG == obj1->get_tiempo())
-			{
-				if (vCG<obj1->get_veces())
-				{
-					cg* obj2 = new cg(buffer->Graphics, 5, 5, 100, 50, 5);
-					arreglo->agregar(obj2);
-					tCG = 0;
-					vCG++;
-				}
-				else
-				{
-				//asda
-					iCG = false;
-				}
-			}
-			tCG = tCG + 1;
-		}
-			for (int i=0; i<arreglo->get_N();i++)
-		{
-			arreglo->obtener(i)->mover(buffer->Graphics);
-		}
-			buffer->Render(d);
+		objJugador->Mover(buffer->Graphics, teclapulsada);
+	
+			objJugador->cambiar_dx_dy(teclapulsada);
+			buffer->Render(gr);
+			delete buffer;
+			delete espacio;
+			delete gr;
 	}
-	};
+	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+		teclapulsada = Direcciones::Ninguna;
+		if (e->KeyCode == Keys::Up)
+			teclapulsada = Direcciones::Arriba;
+		if (e->KeyCode == Keys::Down)
+			teclapulsada = Direcciones::Abajo;
+		if (e->KeyCode == Keys::Left)
+			teclapulsada = Direcciones::Izquierda;
+		if (e->KeyCode == Keys::Right)
+			teclapulsada = Direcciones::Derecha;
+
+		objJugador->cambiar_dx_dy(teclapulsada);
+	}
+};
 }
